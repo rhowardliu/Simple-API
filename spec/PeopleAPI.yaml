@@ -1,125 +1,144 @@
 openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/m3175/People/1.0.0
 info:
   title: Hello People
   description: people API
-  version: v1
+  version: "1.0.0"
 paths:
+  /people:
+    get: 
+      summary: Returns list of people available
+      operationId: getPeople
+      parameters: 
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          $ref: '#/components/responses/peopleResponse'
+        default:
+          $ref: '#/components/responses/errorResponse'
+    
+    post:
+      summary: Adds a new person to the list
+      operationId: addPerson
+      requestBody:
+        $ref: '#/components/requestBodies/newPersonRequest' 
+      responses:
+          '201':
+            $ref: '#/components/responses/personResponse'
+          default:
+            $ref: '#/components/responses/errorResponse'
   /people/{id}:
     get:
       summary: Returns a single person
+      operationId: getPersonById
       parameters: 
         - name: id
           in: path
           description: ID of a person to fetch
           required: true
           schema:
-            type: integer
-            format: int64
+            $ref: '#/components/schemas/integerSchema'
       responses:
         '200':
-          description: Person specified is found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Person'
-              examples:
-                Tony:
-                  value:
-                    id: 1
-                    name: Tony McGrady
-                    birthDate: 1965-12-15
-                    countryOfBirth: USA
-                Julia:
-                  value:
-                    id: 2
-                    name: Julia Smith
-                    birthDate: 1987-04-23
-                    countryOfBirth: USA
+          $ref: '#/components/responses/personResponse'
         default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/errorResponse'
     delete:
       summary: Delete a person from the list
+      operationId: deletePersonById
       parameters:
         - name: id
           in: path
           description: ID of a person to delete
           required: true
           schema:
-            type: integer
-            format: int64
-            example: 1
+            $ref: '#/components/schemas/integerSchema'
       responses:
         '202':
-          description: Person successfully deleted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Person'
+          $ref: '#/components/responses/personResponse'
         default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/errorResponse'
     put:
       summary: Update an existing person
+      operationId: updatePersonById
       parameters: 
         - name: id
           in: path
           description: ID of a person to update
           required: true
           schema:
-            type: integer
-            format: int64
+            $ref: '#/components/schemas/integerSchema'
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewPerson'
-            example:
-              name: Chen Hui Zhen
-              birthDate: 1977-07-07
-              countryOfBirth: China
+        $ref: '#/components/requestBodies/newPersonRequest'
       responses:
-        '202':
-          description: Person successfully updated
-    post:
-      summary: Adds a new person to the list
-      parameters: 
-        - name: id
-          in: path
-          description: ID of a person to add
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NewPerson' 
-      responses:
-          '201':
-            description: Person posted successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Person'
+          '202':
+            $ref: '#/components/responses/personResponse'
           default:
-            description: unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
-      
+            $ref: '#/components/responses/errorResponse'
+
+
 components:
+  parameters:
+    peopleId:
+      name: peopleId
+      in: path
+      description: ID of a person
+      required: true
+      schema:
+        $ref: '#/components/schemas/integerSchema'
+    limit:
+      name: limit
+      in: query
+      description: limit of return
+      required: true
+      schema:
+        $ref: '#/components/schemas/integerSchema'
+    offset:
+      name: offset
+      in: query
+      description: offset for pagination
+      schema:
+        $ref: '#/components/schemas/integerSchema'
+  requestBodies:
+    newPersonRequest:
+      required: true
+      description: new Person to add
+      content:
+       application/hal+json:
+        schema:
+          $ref: '#/components/schemas/NewPerson'
+  responses:
+    peopleResponse:
+      description: Return list of people
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/People'
+    personResponse:
+      description: Returns a person
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Person'
+    errorResponse:
+      description: unexpected
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    People:
+      properties:
+        count:
+          $ref: '#/components/schemas/integerSchema'
+        _embedded:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
     Person:
       allOf:
         - $ref: '#/components/schemas/NewPerson'
@@ -127,13 +146,14 @@ components:
           - id
           properties:
             id:
-              type: integer
-              format: int64
-              example: 102
+              $ref: '#/components/schemas/integerSchema'
     NewPerson:
       required:
         - name
       properties:
+        _links:
+          allOf:
+          - $ref: '#/components/schemas/halLinkSelfSchema'
         name:
           type: string
         birthDate:
@@ -149,6 +169,20 @@ components:
           type: string
         message:
           type: string
-            
-          
-                      
+    halLinkSchema:
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          type: string
+    halLinkSelfSchema:
+      type: object
+      required:
+        - self
+      properties:
+        self:
+          $ref: '#/components/schemas/halLinkSchema'
+    integerSchema:
+      type: integer
+      format: int64
