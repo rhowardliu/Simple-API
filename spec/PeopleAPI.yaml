@@ -127,7 +127,7 @@ components:
     errorResponse:
       description: unexpected
       content:
-        application/json:
+        application/hal+json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
@@ -142,24 +142,26 @@ components:
     Person:
       allOf:
         - $ref: '#/components/schemas/NewPerson'
-        - required:
-          - id
+        - type: object 
+          required:
+            - id
           properties:
             id:
               $ref: '#/components/schemas/integerSchema'
     NewPerson:
-      required:
-        - name
       properties:
         _links:
           allOf:
           - $ref: '#/components/schemas/halLinkSelfSchema'
         name:
           type: string
+          example: Nassim Taleb
         birthDate:
           type: string
+          example: 1960-12-29
         countryOfBirth:
           type: string
+          example: Lebanon
     Error:
       required:
         - code
@@ -167,8 +169,10 @@ components:
       properties:
         code:
           type: string
+          example: 404
         message:
           type: string
+          example: Page Not Found
     halLinkSchema:
       type: object
       required:
@@ -176,6 +180,7 @@ components:
       properties:
         href:
           type: string
+          example: '<baseurl>/people/1'
     halLinkSelfSchema:
       type: object
       required:
@@ -186,3 +191,4 @@ components:
     integerSchema:
       type: integer
       format: int64
+      example: 1
