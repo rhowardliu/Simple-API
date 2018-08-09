@@ -11,7 +11,7 @@ paths:
   /people:
     get: 
       summary: Returns list of people available
-      operationId: getPeople
+      operationId: listPeople
       parameters: 
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -31,12 +31,12 @@ paths:
             $ref: '#/components/responses/personResponse'
           default:
             $ref: '#/components/responses/errorResponse'
-  /people/{id}:
+  /people/{peopleId}:
     get:
       summary: Returns a single person
       operationId: getPersonById
       parameters: 
-        - name: id
+        - name: peopleId
           in: path
           description: ID of a person to fetch
           required: true
@@ -51,7 +51,7 @@ paths:
       summary: Delete a person from the list
       operationId: deletePersonById
       parameters:
-        - name: id
+        - name: peopleId
           in: path
           description: ID of a person to delete
           required: true
@@ -66,7 +66,7 @@ paths:
       summary: Update an existing person
       operationId: updatePersonById
       parameters: 
-        - name: id
+        - name: peopleId
           in: path
           description: ID of a person to update
           required: true

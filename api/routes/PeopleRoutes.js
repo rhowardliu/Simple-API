@@ -1,14 +1,14 @@
 'use strict';
-module.exports = app => {
+module.exports = (app) => {
     const peopleList = require('../controllers/peopleController');
 
     app.route('/people')
     .get(peopleList.getPeople)
-    .post(peopleList.addPerson);
+    // .post(peopleList.addPerson);
 
 
-  app.route('/tasks/:peopleId')
-    .get(peopleList.getPersonById)
-    .put(peopleList.updatePersonById)
-    .delete(peopleList.deletePersonById);
+  // app.route('/people/:peopleId')
+  //   .get(peopleList.getPersonById)
+  //   .put(peopleList.updatePersonById)
+  //   .delete(peopleList.deletePersonById);
 };
