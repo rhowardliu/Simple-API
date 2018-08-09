@@ -3,12 +3,12 @@ module.exports = app => {
     const peopleList = require('../controllers/peopleController');
 
     app.route('/people')
-    .get(todoList.getPeople)
-    .post(todoList.addPerson);
+    .get(peopleList.getPeople)
+    .post(peopleList.addPerson);
 
 
   app.route('/tasks/:peopleId')
-    .get(todoList.getPersonById)
-    .put(todoList.updatePersonById)
-    .delete(todoList.deletePersonById);
+    .get(peopleList.getPersonById)
+    .put(peopleList.updatePersonById)
+    .delete(peopleList.deletePersonById);
 };
