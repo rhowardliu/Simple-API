@@ -26,7 +26,6 @@ exports.addPerson = (req, res) =>{
 };
 
 
-
 exports.getPersonById = function(req, res) {
   Person.findById(req.params.personId, function(err, task) {
     if (err)

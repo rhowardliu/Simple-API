@@ -7,7 +7,7 @@ module.exports = (app) => {
     .post(peopleList.addPerson);
 
 
-    app.route('/people/:peopleId')
+    app.route('/people/:personId')
       .get(peopleList.getPersonById)
       .put(peopleList.updatePersonById)
       .delete(peopleList.deletePersonById);
