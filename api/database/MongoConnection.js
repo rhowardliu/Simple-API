@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 //Initiate Database Model
 require('../models/dbModel');
 
-const mongoURL= 'mongodb://localhost/noderest'
+const mongoURL= 'mongodb://localhost:27017/noderest'
 
 //Connect to URL
-mongoose.connect(mongoURL);
+mongoose.connect(mongoURL, { useNewUrlParser: true });
 
 // Throws error if connection fails
 const db = mongoose.connection;

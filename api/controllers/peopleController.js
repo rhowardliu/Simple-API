@@ -4,24 +4,54 @@
 // const dbModel = require('../models/dbModel');
 
 let mongoose = require('mongoose');
-let People = mongoose.model('person');
+let Person = mongoose.model('person');
 
 exports.getPeople = (req, res) => {
-    People.find({},function(err, results) {
+    Person.find({},function(err, results) {
       return res.send(results);
     });
   };
   
 
+exports.addPerson = (req, res) =>{
+    let newPerson = new Person(req.body);
+    newPerson.save((err, person) => {
+      if (err){
+        res.send(err);
+        return;
+      }
+      return res.send(person);
+
+    })   
+};
 
 
 
-// exports.addPerson = (req, res) =>{
-//     person = dbExecute.collection('people').post(req.body);
-//     if (!person)
-//         res.send('Error');
+exports.getPersonById = function(req, res) {
+  Person.findById(req.params.personId, function(err, task) {
+    if (err)
+      res.send(err);
+    res.json(task);
+  });
+};
 
-//     else res.send(person);
-    
-// }
+
+exports.updatePersonById = function(req, res) {
+  Person.findOneAndUpdate({_id: req.params.personId}, req.body, {new: true}, function(err, task) {
+    if (err)
+      res.send(err);
+    res.json(task);
+  });
+};
+
+
+exports.deletePersonById = function(req, res) {
+  Person.remove({
+    _id: req.params.personId
+  }, function(err, task) {
+    if (err)
+      res.send(err);
+    res.json({ message: 'Person successfully deleted' });
+  });
+};
 
