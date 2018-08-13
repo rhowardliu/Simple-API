@@ -7,8 +7,8 @@ module.exports = app => {
     .post(peopleList.addPerson);
 
 
-  app.route('/tasks/:peopleId')
-    .get(peopleList.getPersonById)
-    .put(peopleList.updatePersonById)
-    .delete(peopleList.deletePersonById);
+  // app.route('/tasks/:peopleId')
+  //   .get(peopleList.getPersonById)
+  //   .put(peopleList.updatePersonById)
+  //   .delete(peopleList.deletePersonById);
 };
