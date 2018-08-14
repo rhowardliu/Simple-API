@@ -159,9 +159,9 @@ components:
         birthDate:
           type: string
           example: 1960-12-29
-        countryOfBirth:
+        hobby:
           type: string
-          example: Lebanon
+          example: Debate
     Error:
       required:
         - code
