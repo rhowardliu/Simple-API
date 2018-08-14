@@ -6,25 +6,13 @@ const db_config = require('./db_config')
 // let con =Promise.resolve(mysql.createConnection(db_config))
 // let con = mysql.createConnection(db_config);
 
-let connection = ()=>{
-    let con = mysql.createConnection(db_config);
-    return Promise.resolve(con);
-};
+module.exports = ()=>{
+    let con = mysql.createConnection(db_config)
+    con.connect((err, result)=>{
+        if (err) throw err;
+        console.log ("Connected to MySQL database.");
+        console.log ("result: ", result);
 
-connection()
-    .then(success => createDB(success)
-    )
-    .catch(err=>{
-        console.log(err.stack);
-    })
-
-function createDB(con){
-    con.query("CREATE DATABASE mydb", (err, result)=>{
-        console.log("database created ", result)
-    })
+    });
+    return con;
 }
-console.log('hello world');
-// con.connect((err)=>{
-//     if (err) throw err;
-//     console.log("Connected to MySQL database.");
-// })
