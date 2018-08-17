@@ -3,10 +3,10 @@ let InvalidFormat = errorResponse(400, 'Bad request');
 let InternalError = errorResponse(500, 'Internal Server Error');
 
 
-function errorResponse(status_code, description) {
+function errorResponse(status_code, message) {
     return {
-    status_code,
-    description,
+    'status code': status_code,
+    message,
     }
 }
 
