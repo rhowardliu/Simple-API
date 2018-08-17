@@ -7,9 +7,16 @@ addToDb = (obj) =>{
     myQuery = queryBuilder.addEntry(table, obj);
 
     con.query(myQuery, (err, results) =>{
-        if(err) return false;
+        if(err) {
+            err.statusCode = 500;
+            err.message = 'To Database failed.'
+        };
         console.log(results);
-        return true;
     });
     
+}
+
+module.exports = {
+    addToDb,
+
 }
