@@ -4,20 +4,20 @@ const table = 'people';
 
 
 uniqueId = () =>{
-    return (new Date()).getTime();
+    return (new Date()).getTime()%99;
 }
 
-addToDb = (obj) =>{
-    obj.id = uniqueId();
+addToDb = (obj, onAdd) =>{
+    // obj['id'] = uniqueId();
     myQuery = queryBuilder.addEntry(table, obj);
-
+    console.log(myQuery);
     con.query(myQuery, (err, results) =>{
         if(err) {
             err.statusCode = 500;
-            err.message = 'To Database failed.'
             throw err;
         };
         console.log(results);
+        onAdd();
     });
     
 }

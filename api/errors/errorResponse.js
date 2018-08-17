@@ -1,5 +1,4 @@
 
-
 errorResponse = (err) => {
     return {
     'status code': err.statusCode,
@@ -15,6 +14,7 @@ pageNotFound = (req, res, next) =>{
 
 
 customError = (err, req, res, next) =>{
+    console.log(req.body, "status: ", err.statusCode);
     res.status(err.statusCode).json(errorResponse(err));
 }
 
