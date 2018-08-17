@@ -3,7 +3,12 @@ const con = require('../database/db_connection').con;
 const table = 'people';
 
 
+uniqueId = () =>{
+    return (new Date()).getTime();
+}
+
 addToDb = (obj) =>{
+    obj.id = uniqueId();
     myQuery = queryBuilder.addEntry(table, obj);
 
     con.query(myQuery, (err, results) =>{
