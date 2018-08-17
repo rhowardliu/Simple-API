@@ -10,7 +10,10 @@ let con = mysql.createConnection(db_config);
 
 dbConnect = ()=>{
     con.connect((err, result)=>{
-        if (err) throw err;
+        if (err) {
+            err.statusCode = 500
+            throw err;
+        }
         console.log ("Connected to MySQL database.");
         console.log ("result: ", result);
     });

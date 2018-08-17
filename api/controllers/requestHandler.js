@@ -10,6 +10,7 @@ addToDb = (obj) =>{
         if(err) {
             err.statusCode = 500;
             err.message = 'To Database failed.'
+            throw err;
         };
         console.log(results);
     });
