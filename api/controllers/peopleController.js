@@ -2,15 +2,19 @@ const reqHandler = require('./requestHandler');
 const resBuilder = require('./responseBuilder');
 const model = require('../models/db_model')
 const modelValidate = require('../models/model_validate').modelValidate;
+const idBuilder = require('../models/id_builder');
 
-const addPerson = (req, res ,next) =>{
+const addPerson = async (req, res ,next) =>{
   try{
-  modelValidate(req.body, model.person);
-  reqHandler.addToDb(req.body, ()=>{
+  
+  receivedObj = await modelValidate(req.body, model.person);
+  await idBuilder.addIdToObj(receivedObj);
+  await reqHandler.addToDb(receivedObj);
 
+  await resBuilder.singleEntityResponse('people', receivedObj);
 
-  });
-  res.status(200).send(req.body);
+  res.status(201).send(receivedObj);
+
 
   }
   catch(err){
