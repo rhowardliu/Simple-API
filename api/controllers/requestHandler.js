@@ -23,8 +23,8 @@ queryDb = (queryTable, queryType, queryObj) =>{
 
 addToDb = async(table, obj) =>{
     dbObj = await queryDb(table, 'addEntry', obj);
-    await console.log("Adding?? ", dbObj);
-    return dbObj;
+    fetchedObj = await getFromDb(table, dbObj.insertId);
+    return (fetchedObj);
 };
 
 updateDb = (table, obj) =>{

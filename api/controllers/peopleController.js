@@ -13,10 +13,9 @@ const addPerson = async (req, res ,next) =>{
   
     const receivedObj = await modelValidate(req.body, model.person);
     await idBuilder.addIdToObj(receivedObj);
-    await reqHandler.addToDb('people', receivedObj);
-
-    await resBuilder.singleEntityResponse('people', receivedObj);
-    res.status(200).send(receivedObj);
+    let dBObject = await reqHandler.addToDb('people', receivedObj);
+    await resBuilder.singleEntityResponse('people', dBObject[0]);
+    res.status(200).send(dBObject);
 
   }
   catch(err){
