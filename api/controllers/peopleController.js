@@ -45,16 +45,16 @@ const getPersonById = async (req, res, next) => {
 const deletePersonById = async (req, res, next) =>{
   try{
     const id = req.params.personId;
-    await reqHandler.deleteFromDb('people', id);
-    res.status(200).send(req.body);
+    const dbObject = await reqHandler.deleteFromDb('people', id);
+    console.log("dbObject is ", dbObject);
+    await resBuilder.singleEntityResponse('people', dbObject[0]);
+    res.status(200).json(dbObject[0]);
 
   }
   catch(err){
     console.log("deletePersonById threw it")
     next(err);
-  
   }
-
 }
 
 
