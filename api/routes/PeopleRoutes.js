@@ -16,9 +16,9 @@ module.exports = (app) => {
 
 
     app.route('/people/:personId')
-      // .get(peopleList.getPersonById)
-      // .put(peopleList.updatePersonById)
-      // .delete(peopleList.deletePersonById);
+      .get(peopleController.getPersonById)
+      // .put(peopleController.updatePersonById)
+      .delete(peopleController.deletePersonById);
 
     app.use('*', errResponse.pageNotFound)
     app.use(errResponse.customError);

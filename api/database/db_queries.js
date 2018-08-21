@@ -7,11 +7,11 @@ const addEntry = (table, object) => {
     return query;
 }
 
-const getEntry = (table, object) => {
-    return query = `SELECT * FROM ${table} WHERE id=${id}`;
+const getEntry = (table, id) => {
+    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate FROM ${table} WHERE id=${id}`;
 }
 
-const deleteEntry = (table, object) => {
+const deleteEntry = (table, id) => {
     return query = `DELETE FROM ${table} WHERE id=${id}`;
 }
 
