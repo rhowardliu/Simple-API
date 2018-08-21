@@ -8,7 +8,7 @@ const idBuilder = require('../models/id_builder');
 const addPerson = async (req, res ,next) =>{
   try{
   
-    receivedObj = await modelValidate(req.body, model.person);
+    const receivedObj = await modelValidate(req.body, model.person);
     await idBuilder.addIdToObj(receivedObj);
     await reqHandler.addToDb('people', receivedObj);
 
@@ -19,10 +19,29 @@ const addPerson = async (req, res ,next) =>{
 
   }
   catch(err){
-    console.log("addPerson threw it")
+    console.log("addPerson threw it");
     next(err);
   }
 
+}
+
+const updatePersonById = async (req, res, next) => {
+  try{
+    console.log(req);
+    const receivedObj = await modelValidate(req.body, model.person);
+    const id = req.params.personId;
+    receivedObj.id = id;
+  
+    await reqHandler.updateDb('people', receivedObj);
+    await resBuilder.singleEntityResponse('people', receivedObj);
+    res.status(200).send(receivedObj);
+
+
+  }
+  catch(err){
+    console.log("updatePersonById threw it");
+    next(err);
+  }
 }
 
 const getPersonById = async (req, res, next) => {
@@ -62,6 +81,7 @@ const deletePersonById = async (req, res, next) =>{
 module.exports = {
   addPerson,
   getPersonById,
-  deletePersonById
+  deletePersonById,
+  updatePersonById
 
 }

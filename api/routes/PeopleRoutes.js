@@ -3,11 +3,7 @@
 const peopleController = require('../controllers/peopleController');
 const errResponse = require('../errors/errorResponse');
 
-// const getPeople = (req, res) => {
-//   Person.find({},function(err, results) {
-//     return res.send(results);
-//   });
-// };
+
 
 module.exports = (app) => {
     app.route('/people')
@@ -17,7 +13,7 @@ module.exports = (app) => {
 
     app.route('/people/:personId')
       .get(peopleController.getPersonById)
-      // .put(peopleController.updatePersonById)
+      .put(peopleController.updatePersonById)
       .delete(peopleController.deletePersonById);
 
     app.use('*', errResponse.pageNotFound)

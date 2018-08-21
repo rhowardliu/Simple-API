@@ -21,22 +21,26 @@ queryDb = (queryTable, queryType, queryObj) =>{
 
 addToDb = (table, obj) =>{
     return queryDb(table, 'addEntry', obj);
-}
+};
+
+updateDb = (table, obj) =>{
+    return queryDb(table, 'updateEntry', obj);
+};
 
 getFromDb = (table, id) =>{
     return queryDb(table, 'getEntry', id);
-}
+};
 
 deleteFromDb = async (table, id) => {
     dbObj = await getFromDb(table, id);
     await queryDb(table, 'deleteEntry', id);
     return dbObj;
-}
+};
 
 
 module.exports = {
     addToDb,
     getFromDb,
     deleteFromDb,
-
+    updateDb,
 }
