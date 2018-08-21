@@ -18,9 +18,9 @@ selfLinkObj = (selfLink) => {
 
 
 singleEntityResponse = (endpoint, object) =>{
-    halSelfLink = constructHalSelfLink (endpoint, object.id);
+    halSelfLink = constructHalSelfLink(endpoint, object.id);
     object._links = selfLinkObj(halSelfLink);
-
+    return Promise.resolve();
 }
 
 module.exports = {

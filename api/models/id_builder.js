@@ -3,6 +3,7 @@ uniqueId = () =>{
 }
 addIdToObj = (obj) =>{
     obj.id = uniqueId();
+    return Promise.resolve();
 }
 
 module.exports = {
