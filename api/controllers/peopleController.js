@@ -14,7 +14,6 @@ const addPerson = async (req, res ,next) =>{
     const receivedObj = await modelValidate(req.body, model.person);
     await idBuilder.addIdToObj(receivedObj);
     await reqHandler.addToDb('people', receivedObj);
-    console.log("dbObject is ", dbObject);
 
     await resBuilder.singleEntityResponse('people', receivedObj);
     res.status(200).send(receivedObj);
@@ -34,7 +33,6 @@ const updatePersonById = async (req, res, next) => {
     receivedObj.id = id;
   
     await reqHandler.updateDb('people', receivedObj);
-    console.log("dbObject is ", dbObject);
 
     await resBuilder.singleEntityResponse('people', receivedObj);
     res.status(200).send(receivedObj);

@@ -6,15 +6,17 @@ errorResponse = (err) => {
     }
 }
 
-pageNotFound = (req, res, next) =>{
-    let error = new Error ('page Not Found');
-    error.statusCode = 404;
+pageNotFound = (err, req, res, next) =>{
+    if (err.statusCode) next(err);
+
+    err.message = 'Page Not Found';
+    err.statusCode = 404;
     next(err);
 }
 
 
 customError = (err, req, res, next) =>{
-    console.log(err);
+    console.log("Caught Error \n", err);
     res.status(err.statusCode).json(errorResponse(err));
 }
 
