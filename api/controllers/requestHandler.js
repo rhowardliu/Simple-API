@@ -4,6 +4,7 @@ const con = require('../database/db_connection').con;
 
 queryDb = (queryTable, queryType, queryObj) =>{
     return new Promise((resolve, reject)=>{
+        console.log("Query Object ", queryObj);
         myQuery = queryBuilder[queryType](queryTable,queryObj);
         console.log("Executing SQL query: ", myQuery);
         con.query(myQuery, (err, results)=> {
@@ -37,10 +38,15 @@ deleteFromDb = async (table, id) => {
     return dbObj;
 };
 
+getMultiFromDb = (table, limit, offset) =>{
+    obj = {limit, offset};
+    return queryDb(table, 'getMultiEntries', obj);
+}
 
 module.exports = {
     addToDb,
     getFromDb,
     deleteFromDb,
     updateDb,
+    getMultiFromDb
 }

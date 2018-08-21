@@ -8,7 +8,14 @@ const addEntry = (table, object) => {
 }
 
 const getEntry = (table, id) => {
-    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate FROM ${table} WHERE id=${id}`;
+    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate 
+    FROM ${table} WHERE id=${id}`;
+}
+
+const getMultiEntries = (table, obj) =>{
+    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d')AS birthDate 
+    FROM ${table} LIMIT ${obj.limit} OFFSET ${obj.offset}`;
+
 }
 
 const deleteEntry = (table, id) => {
@@ -55,6 +62,7 @@ function addObjectValues(query, object){
 module.exports = {
     addEntry,
     getEntry,
+    getMultiEntries,
     deleteEntry,
     updateEntry,
 }

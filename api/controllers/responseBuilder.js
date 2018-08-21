@@ -23,6 +23,14 @@ singleEntityResponse = (endpoint, object) =>{
     return Promise.resolve();
 }
 
+multiEntityResponse = (endpoint, objects) => {
+    for (let obj of objects){
+        singleEntityResponse(endpoint, obj);
+    }
+    return Promise.resolve();
+}
+
 module.exports = {
     singleEntityResponse,
+    multiEntityResponse
 }

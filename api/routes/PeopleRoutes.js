@@ -7,7 +7,7 @@ const errResponse = require('../errors/errorResponse');
 
 module.exports = (app) => {
     app.route('/people')
-    // .get(getPeople)
+    .get(peopleController.getPeople)
     .post(peopleController.addPerson);
 
 

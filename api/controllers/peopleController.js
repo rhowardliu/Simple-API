@@ -4,6 +4,9 @@ const model = require('../models/db_model')
 const modelValidate = require('../models/model_validate').modelValidate;
 const idBuilder = require('../models/id_builder');
 
+const DEFAULT_LIMIT = 10;
+const DEFAULT_OFFSET = 0;
+
 
 const addPerson = async (req, res ,next) =>{
   try{
@@ -76,12 +79,26 @@ const deletePersonById = async (req, res, next) =>{
   }
 }
 
-
+const getPeople = async (req, res, next) => {
+  try{
+    let limit = req.query.limit || DEFAULT_LIMIT;
+    let offset = req.query.offset || DEFAULT_OFFSET;
+    const dbObject = await reqHandler.getMultiFromDb('people', limit, offset);
+    console.log("dbObject is ", dbObject);
+    await resBuilder.multiEntityResponse('people', dbObject);
+    res.status(200).json(dbObject);
+  }
+  catch(err){
+    console.log("getPeople threw it")
+    next(err);
+  }
+}
 
 module.exports = {
   addPerson,
   getPersonById,
   deletePersonById,
-  updatePersonById
+  updatePersonById,
+  getPeople
 
 }
