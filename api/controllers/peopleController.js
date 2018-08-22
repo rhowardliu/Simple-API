@@ -49,7 +49,6 @@ const getPersonById = async (req, res, next) => {
     const id = req.params.personId;
     const dbObject = await reqHandler.getFromDb('people', id);
 
-    console.log("dbObject is ", dbObject);
     await resBuilder.singleEntityResponse('people', dbObject[0]);
     res.status(200).json(dbObject[0]);
   }
@@ -65,7 +64,6 @@ const deletePersonById = async (req, res, next) =>{
   try{
     const id = req.params.personId;
     const dbObject = await reqHandler.deleteFromDb('people', id);
-    console.log("dbObject is ", dbObject);
     await resBuilder.singleEntityResponse('people', dbObject[0]);
     res.status(200).json(dbObject[0]);
 
@@ -81,7 +79,6 @@ const getPeople = async (req, res, next) => {
     let limit = req.query.limit || DEFAULT_LIMIT;
     let offset = req.query.offset || DEFAULT_OFFSET;
     const dbObject = await reqHandler.getMultiFromDb('people', limit, offset);
-    console.log("dbObject is ", dbObject);
     await resBuilder.multiEntityResponse('people', dbObject);
     res.status(200).json(dbObject);
   }

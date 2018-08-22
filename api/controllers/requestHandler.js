@@ -1,5 +1,5 @@
 const queryBuilder = require('../database/db_queries')
-const con = require('../database/db_connection').con;
+const con = require('../database/db_connection').dbConnect();
 // const table = 'people';
 
 queryDb = (queryTable, queryType, queryObj) =>{
