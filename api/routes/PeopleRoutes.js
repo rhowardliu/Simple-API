@@ -1,14 +1,21 @@
 'use strict';
-module.exports = app => {
-    const peopleList = require('../controllers/peopleController');
 
+const peopleController = require('../controllers/peopleController');
+const errResponse = require('../errors/errorResponse');
+
+
+
+module.exports = (app) => {
     app.route('/people')
-    .get(peopleList.getPeople)
-    .post(peopleList.addPerson);
+    .get(peopleController.getPeople)
+    .post(peopleController.addPerson);
 
 
-  app.route('/tasks/:peopleId')
-    .get(peopleList.getPersonById)
-    .put(peopleList.updatePersonById)
-    .delete(peopleList.deletePersonById);
+    app.route('/people/:personId')
+      .get(peopleController.getPersonById)
+      .put(peopleController.updatePersonById)
+      .delete(peopleController.deletePersonById);
+
+    app.use('*', errResponse.pageNotFound)
+    app.use(errResponse.customError);
 };
