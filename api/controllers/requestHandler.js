@@ -8,11 +8,12 @@ queryDb = (queryTable, queryType, queryObj) =>{
         console.log("Executing SQL query: ", myQuery);
         con.query(myQuery, (err, results)=> {
             if (err){
+                console.log('err', err);
                 err.statusCode = 500;
                 err.message = 'Internal Server Error';
                 reject(err);
             }
-            console.log(results);
+            console.log("DB Results", results);
             resolve(results);
         });
 

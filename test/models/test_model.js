@@ -18,5 +18,4 @@ describe('Model Validation',()=>{
         let jane_model = {id: 1, name:'Jane'};
         return expect(modelValidate(jane, model))
                 .to.eventually.deep.equal(jane_model)});
-    
 })
