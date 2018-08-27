@@ -14,7 +14,7 @@ const addPerson = async (req, res ,next) =>{
     const receivedObj = await modelValidate(req.body, model.person);
     await idBuilder.addIdToObj(receivedObj);
     let dBObject = await reqHandler.addToDb('people', receivedObj);
-    await resBuilder.singleEntityResponse('people', dBObject[0]);
+    await resBuilder.singleEntityResponse('people', dBObject);
     res.status(200).send(dBObject);
 
   }
@@ -49,8 +49,8 @@ const getPersonById = async (req, res, next) => {
     const id = req.params.personId;
     const dbObject = await reqHandler.getFromDb('people', id);
 
-    await resBuilder.singleEntityResponse('people', dbObject[0]);
-    res.status(200).json(dbObject[0]);
+    await resBuilder.singleEntityResponse('people', dbObject);
+    res.status(200).json(dbObject);
   }
   catch(err){
     console.log("getPersonById threw it")
@@ -64,8 +64,8 @@ const deletePersonById = async (req, res, next) =>{
   try{
     const id = req.params.personId;
     const dbObject = await reqHandler.deleteFromDb('people', id);
-    await resBuilder.singleEntityResponse('people', dbObject[0]);
-    res.status(200).json(dbObject[0]);
+    await resBuilder.singleEntityResponse('people', dbObject);
+    res.status(200).json(dbObject);
 
   }
   catch(err){

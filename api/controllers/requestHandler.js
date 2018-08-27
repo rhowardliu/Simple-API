@@ -24,8 +24,8 @@ queryDb = (queryTable, queryType, queryObj) =>{
 
 addToDb = async(table, obj) =>{
     dbObj = await queryDb(table, 'addEntry', obj);
-    fetchedObj = await getFromDb(table, dbObj.insertId);
-    return (fetchedObj);
+    obj.id = dbObj.insertId;
+    return obj;
 };
 
 updateDb = (table, obj) =>{
@@ -35,7 +35,7 @@ updateDb = (table, obj) =>{
 getFromDb = async (table, id) =>{
     dbObj = await queryDb(table, 'getEntry', id);
     if (!dbObj.length) Promise.reject(new Error);
-    return dbObj;
+    return dbObj[0];
 };
 
 deleteFromDb = async (table, id) => {
