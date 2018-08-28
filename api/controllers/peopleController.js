@@ -1,4 +1,4 @@
-const reqHandler = require('./requestHandler');
+// const reqHandler = require('./requestHandler');
 const resBuilder = require('./responseBuilder');
 const model = require('../models/db_model')
 const modelValidate = require('../models/model_validate').modelValidate;

@@ -1,20 +1,7 @@
-dev = {
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "MyAPI",
-}
+var config      = require('../../knexfile');  
+var env         = process.env.ENV || 'dev';  
+var knex        = require('knex')(config[env]);
 
-test = {
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "testMyAPI",
-}
+module.exports = knex;
 
-module.exports =
-    {
-        dev,
-        test
-      }
-
+knex.migrate.latest(); 

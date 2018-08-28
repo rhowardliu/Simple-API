@@ -4,7 +4,7 @@
   "description": "People API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "ENV=test mocha",
     "start": "nodemon server.js"
   },
   "author": "Howard Liu",

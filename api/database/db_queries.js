@@ -1,68 +1,96 @@
-const addEntry = (table, object) => {
-    let query = `INSERT INTO ${table} `;
-    query = addObjectKeys(query, object);
-    query += ` VALUES `;
-    query = addObjectValues(query, object);
+const knex = require('./db_config');
 
-    return query;
+
+insertEntry = (table, object) =>{
+// returns array of ids
+    return knex(table).insert(object);
 }
 
-const getEntry = (table, id) => {
-    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate 
-    FROM ${table} WHERE id=${id}`;
+selectEntry = (table, id) =>{
+//returns array of object
+    return knex.select().table(table).where('id', id);
 }
 
-const getMultiEntries = (table, obj) =>{
-    return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d')AS birthDate 
-    FROM ${table} LIMIT ${obj.limit} OFFSET ${obj.offset}`;
-
+selectMultiEntries = (table, obj) =>{
+//returns array of object
+    return knex(table).limit(obj.limit).offset(obj.offset);
 }
 
-const deleteEntry = (table, id) => {
-    return query = `DELETE FROM ${table} WHERE id=${id}`;
+deleteEntry = (table, id) =>{
+// returns number of affected rows
+    return knex(table).where('id', id).del();
 }
 
-const updateEntry = (table, object) => {
-    query = `UPDATE ${table} SET `;
-    query = equateObjectKeyValue(query, object);
-    query += ` WHERE id=${object.id}`;
-
-    return query;
+updateEntry = (table, obj) =>{
+// returns number of affected rows
+    return knex(table).where('id', obj.id).update(obj);
 }
 
-function equateObjectKeyValue(query, object){
-    for (let key in object){
-        query = query.concat(`${key} = '${object[key]}', `)
-    }
-    query = query.slice(0,-2);
+// const addEntry = (table, object) => {
+//     let query = `INSERT INTO ${table} `;
+//     query = addObjectKeys(query, object);
+//     query += ` VALUES `;
+//     query = addObjectValues(query, object);
 
-    return query;
-}
+//     return query;
+// }
 
-function addObjectKeys(query, object){
-    query = query.concat(`(`);
-    for (let key in object){
-        query = query.concat( `${key}, `);
-    }
-    query = query.slice(0, -2);
-    query = query.concat( `)`);
-    return query;
-}
+// const getEntry = (table, id) => {
+//     return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate 
+//     FROM ${table} WHERE id=${id}`;
+// }
 
-function addObjectValues(query, object){
-    query = query.concat(`(`);
-    for (let key in object){
-        query = query.concat( `'${object[key]}', `);
-    }
-    query = query.slice(0, -2);
-    query = query.concat( `)`);
-    return query;
-}
+// const getMultiEntries = (table, obj) =>{
+//     return query = `SELECT *, DATE_FORMAT(birthDate,'%Y-%m-%d')AS birthDate 
+//     FROM ${table} LIMIT ${obj.limit} OFFSET ${obj.offset}`;
+
+// }
+
+// const deleteEntry = (table, id) => {
+//     return query = `DELETE FROM ${table} WHERE id=${id}`;
+// }
+
+// const updateEntry = (table, object) => {
+//     query = `UPDATE ${table} SET `;
+//     query = equateObjectKeyValue(query, object);
+//     query += ` WHERE id=${object.id}`;
+
+//     return query;
+// }
+
+// function equateObjectKeyValue(query, object){
+//     for (let key in object){
+//         query = query.concat(`${key} = '${object[key]}', `)
+//     }
+//     query = query.slice(0,-2);
+
+//     return query;
+// }
+
+// function addObjectKeys(query, object){
+//     query = query.concat(`(`);
+//     for (let key in object){
+//         query = query.concat( `${key}, `);
+//     }
+//     query = query.slice(0, -2);
+//     query = query.concat( `)`);
+//     return query;
+// }
+
+// function addObjectValues(query, object){
+//     query = query.concat(`(`);
+//     for (let key in object){
+//         query = query.concat( `'${object[key]}', `);
+//     }
+//     query = query.slice(0, -2);
+//     query = query.concat( `)`);
+//     return query;
+// }
 
 module.exports = {
-    addEntry,
-    getEntry,
-    getMultiEntries,
+    insertEntry,
+    selectEntry,
+    selectMultiEntries,
     deleteEntry,
     updateEntry,
 }

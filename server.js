@@ -2,16 +2,14 @@ const express = require ('express');
 const app = express();
 const bodyParser = require('body-parser');
 let port = process.env.PORT || 8080;
-let env = process.env.NODE_ENV || 'dev';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-require('./api/database/db_connection').dbConnect(env);
 const router = require('./api/routes/PeopleRoutes');
 
-
-
+dbQuery = require('./api/database/db_queries');
+dbQuery.insertEntry('people', {id:76628, name:'Big Brother', birthDate:'1984-01-01', hobby:'watching'}).then((results)=>{console.log(results)});
 router(app);
 
 app.listen(port);
