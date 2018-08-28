@@ -1,4 +1,6 @@
 const knex = require('./db_connect');
+const DEFAULT_LIMIT = 10;
+const DEFAULT_OFFSET = 0;
 
 
 insertEntry = (table, object) =>{
@@ -8,12 +10,15 @@ insertEntry = (table, object) =>{
 
 selectEntry = (table, id) =>{
 //returns array of object
-    return knex.select().table(table).where('id', id);
+    return knex.select(knex.raw(`*, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate`)).table(table).where('id', id);
 }
 
 selectMultiEntries = (table, obj) =>{
 //returns array of object
-    return knex(table).limit(obj.limit).offset(obj.offset);
+    if (!obj){
+        obj = {limit:DEFAULT_LIMIT, offset:DEFAULT_OFFSET}
+    }
+    return knex(table).select(knex.raw(`*, DATE_FORMAT(birthDate,'%Y-%m-%d') AS birthDate`)).limit(obj.limit).offset(obj.offset);
 }
 
 deleteEntry = (table, id) =>{

@@ -8,8 +8,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const router = require('./api/routes/PeopleRoutes');
 
-dbQuery = require('./api/database/db_queries');
-dbQuery.deleteEntry('people', 12345).then((results)=>{console.log(results)});
 router(app);
 
 app.listen(port);
