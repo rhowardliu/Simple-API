@@ -31,10 +31,15 @@ updateEntry = (table, obj) =>{
     return knex(table).where('id', obj.id).update(obj);
 }
 
+countEntries = (table) =>{
+    return knex(table).count('id')[0]['count(`id`)'];
+}
+
 module.exports = {
     insertEntry,
     selectEntry,
     selectMultiEntries,
     deleteEntry,
     updateEntry,
+    countEntries
 }
