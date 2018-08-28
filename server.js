@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const router = require('./api/routes/PeopleRoutes');
 
 dbQuery = require('./api/database/db_queries');
-dbQuery.insertEntry('people', {id:76628, name:'Big Brother', birthDate:'1984-01-01', hobby:'watching'}).then((results)=>{console.log(results)});
+dbQuery.deleteEntry('people', 12345).then((results)=>{console.log(results)});
 router(app);
 
 app.listen(port);

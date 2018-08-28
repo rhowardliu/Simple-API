@@ -1,5 +1,5 @@
-const modelValidate = require('../../api/models/model_validate').modelValidate;
-const expect = require('../test_init').expect;
+const modelValidate = require('../api/models/model_validate').modelValidate;
+const expect = require('./test_init').expect;
 
 
 describe('Model Validation',()=>{
@@ -13,7 +13,7 @@ describe('Model Validation',()=>{
                 .and.to.have.property('statusCode', 400);
     });
 
-    it ('should resolve with object that only has required attributes', ()=>{
+    it ('should be return an object that only has required attributes', ()=>{
         let jane = {id: 1, name:'Jane', hobby:'sleep'};
         let jane_model = {id: 1, name:'Jane'};
         return expect(modelValidate(jane, model))

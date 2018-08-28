@@ -1,24 +1,18 @@
-const queryBuilder = require('../database/db_queries')
-const con = require('../database/db_connection').dbConnect();
+const knex = require('../database/db_queries')
 
-queryDb = (queryTable, queryType, queryObj) =>{
-    return new Promise((resolve, reject)=>{
-        myQuery = queryBuilder[queryType](queryTable,queryObj);
-        console.log("Executing SQL query: ", myQuery);
-        con.query(myQuery, (err, results)=> {
-            if (err){
-                console.log('err', err);
-                err.statusCode = 500;
-                err.message = 'Internal Server Error';
-                reject(err);
-            }
-            console.log("DB Results", results);
-            resolve(results);
-        });
-
-    });
-
+queryDb = async (queryTable, queryType, queryObj) =>{        
+    const dbObj =  await knex[queryType](queryTable, queryObj);
+    if (dbObj.error){
+        err.statusCode = 500;
+        err.message = 'Internal Server Error';
+        reject(err);
+    }
+    if (!dbObj){
+        reject(new Error);
+    }
+    return (dbObj);
 }
+
 
 
 addToDb = async(table, obj) =>{
