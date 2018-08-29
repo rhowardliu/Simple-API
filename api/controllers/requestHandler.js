@@ -1,53 +1,50 @@
-const queryBuilder = require('../database/db_queries')
-const con = require('../database/db_connection').con;
-// const table = 'people';
+const knex = require('../database/db_queries')
 
-queryDb = (queryTable, queryType, queryObj) =>{
-    return new Promise((resolve, reject)=>{
-        myQuery = queryBuilder[queryType](queryTable,queryObj);
-        console.log("Executing SQL query: ", myQuery);
-        con.query(myQuery, (err, results)=> {
-            if (err){
-                err.statusCode = 500;
-                err.message = 'Internal Server Error';
-                reject(err);
-            }
-            console.log(results);
-            resolve(results);
-        });
-
-    });
-
+queryDb = async (queryTable, queryType, queryObj) =>{        
+    const dbObj =  await knex[queryType](queryTable, queryObj);
+    if (dbObj.error){
+        err.statusCode = 500;
+        err.message = 'Internal Server Error';
+        reject(err);
+    }
+    if (!dbObj){
+        reject(new Error);
+    }
+    return (dbObj);
 }
 
 
-addToDb = async(table, obj) =>{
-    dbObj = await queryDb(table, 'addEntry', obj);
-    fetchedObj = await getFromDb(table, dbObj.insertId);
-    return (fetchedObj);
+
+getFromDb = async (table, id) =>{
+    dbObj = await queryDb(table, 'selectEntry', id);
+    if (!dbObj.length) throw new Error;
+    return dbObj[0];
+};
+
+addToDb = async (table, obj) =>{
+    dbObj = await queryDb(table, 'insertEntry', obj);
+    if (!dbObj.length) throw new Error;
+    return dbObj;
 };
 
 updateDb = (table, obj) =>{
     return queryDb(table, 'updateEntry', obj);
 };
 
-getFromDb = async (table, id) =>{
-    dbObj = await queryDb(table, 'getEntry', id);
-    if (!dbObj.length) Promise.reject(new Error);
-    return dbObj;
+
+deleteFromDb = (table, id) => {    
+    return queryDb(table, 'deleteEntry', id);
 };
 
-deleteFromDb = async (table, id) => {
-    dbObj = await getFromDb(table, id);
-    await queryDb(table, 'deleteEntry', id);
+getMultiFromDb = async (table, params) =>{
+    dbObj = await queryDb(table, 'selectMultiEntries', params);
+    if (!dbObj.length) throw new Error;
     return dbObj;
-};
+}
 
-getMultiFromDb = async (table, limit, offset) =>{
-    obj = {limit, offset};
-    dbObj = await queryDb(table, 'getMultiEntries', obj);
-    if (!dbObj.length) Promise.reject(new Error);
-    return dbObj;
+getCountFromDb = async (table)=>{
+    dbObj = await queryDb(table, 'countEntries');
+    return dbObj[0]['count(`id`)'];
 }
 
 module.exports = {
@@ -55,5 +52,6 @@ module.exports = {
     getFromDb,
     deleteFromDb,
     updateDb,
-    getMultiFromDb
+    getMultiFromDb,
+    getCountFromDb
 }

@@ -6,7 +6,7 @@ servers:
 info:
   title: Hello People
   description: people API
-  version: "1.0.0"
+  version: "2.0.0"
 paths:
   /people:
     get: 
@@ -132,13 +132,17 @@ components:
             $ref: '#/components/schemas/Error'
   schemas:
     People:
-      properties:
-        count:
-          $ref: '#/components/schemas/integerSchema'
-        _embedded:
-          type: array
-          items:
-            $ref: '#/components/schemas/Person'
+      allOf:
+        - $ref: '#/components/schemas/halLinkCollectionSchema'
+        - type: object
+          properties:
+            _embedded:
+              type: object
+              properties:
+                people:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Person'
     Person:
       allOf:
         - $ref: '#/components/schemas/NewPerson'
@@ -155,13 +159,13 @@ components:
           - $ref: '#/components/schemas/halLinkSelfSchema'
         name:
           type: string
-          example: Nassim Taleb
+          example: 'Nassim Taleb'
         birthDate:
           type: string
-          example: 1960-12-29
+          example: '1960-12-29'
         hobby:
           type: string
-          example: Debate
+          example: 'Debate'
     Error:
       required:
         - code
@@ -188,6 +192,28 @@ components:
       properties:
         self:
           $ref: '#/components/schemas/halLinkSchema'
+    halLinkCollectionSchema:
+      properties:
+        _links:
+          $ref: '#/components/schemas/halLinkMetaCollection'
+        count:
+          $ref: '#/components/schemas/integerSchema'
+        total:
+          $ref: '#/components/schemas/integerSchema'
+    halLinkMetaCollection:
+      allOf:
+      - $ref: '#/components/schemas/halLinkSelfSchema'
+      - type: object
+        properties:
+          first:
+            $ref: '#/components/schemas/halLinkSchema'
+          next:
+            $ref: '#/components/schemas/halLinkSchema'
+          prev:
+            $ref: '#/components/schemas/halLinkSchema'
+          last:
+            $ref: '#/components/schemas/halLinkSchema'
+      
     integerSchema:
       type: integer
       format: int64

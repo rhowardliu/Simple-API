@@ -13,6 +13,7 @@ pageNotFound = (req, res, next) =>{
 
 customError = (err, req, res, next) =>{
     if (!err.statusCode){
+        console.log(err);
         err = new Error('Page Not Found');
         err.statusCode = 404;
     } 
