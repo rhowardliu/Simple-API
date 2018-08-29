@@ -193,14 +193,13 @@ components:
         self:
           $ref: '#/components/schemas/halLinkSchema'
     halLinkCollectionSchema:
-      allOf:
-        - $ref: '#/components/schemas/halLinkMetaCollection'
-        - type: object
-          properties:
-            count:
-              $ref: '#/components/schemas/integerSchema'
-            total:
-              $ref: '#/components/schemas/integerSchema'
+      properties:
+        _links:
+          $ref: '#/components/schemas/halLinkMetaCollection'
+        count:
+          $ref: '#/components/schemas/integerSchema'
+        total:
+          $ref: '#/components/schemas/integerSchema'
     halLinkMetaCollection:
       allOf:
       - $ref: '#/components/schemas/halLinkSelfSchema'
