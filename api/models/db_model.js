@@ -1,7 +1,7 @@
 person = {
-    attributes: ['name', 'birthDate', 'hobby']
+	attributes: ['name', 'birthDate', 'hobby']
 };
 
 module.exports = {
-    person,
-}
+	person,
+};

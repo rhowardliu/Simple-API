@@ -6,16 +6,16 @@ const errResponse = require('../errors/errorResponse');
 
 
 module.exports = (app) => {
-    app.route('/people')
-    .get(peopleController.getPeople)
-    .post(peopleController.addPerson);
+	app.route('/people')
+		.get(peopleController.getPeople)
+		.post(peopleController.addPerson);
 
 
-    app.route('/people/:personId')
-      .get(peopleController.getPersonById)
-      .put(peopleController.updatePersonById)
-      .delete(peopleController.deletePersonById);
+	app.route('/people/:personId')
+		.get(peopleController.getPersonById)
+		.put(peopleController.updatePersonById)
+		.delete(peopleController.deletePersonById);
 
-    app.use('*', errResponse.pageNotFound)
-    app.use(errResponse.customError);
+	app.use('*', errResponse.pageNotFound);
+	app.use(errResponse.customError);
 };

@@ -1,28 +1,28 @@
 
 errorResponse = (err) => {
-    return {
-    'status code': err.statusCode,
-    message: err.message,
-    }
-}
+	return {
+		'status code': err.statusCode,
+		message: err.message,
+	};
+};
 
 pageNotFound = (req, res, next) =>{
-    next(new Error);
-}
+	next(new Error);
+};
 
 
 customError = (err, req, res, next) =>{
-    if (!err.statusCode){
-        console.log(err);
-        err = new Error('Page Not Found');
-        err.statusCode = 404;
-    } 
+	if (!err.statusCode){
+		console.log(err);
+		err = new Error('Page Not Found');
+		err.statusCode = 404;
+	} 
 
-    console.log("Caught Error \n", err);
-    res.status(err.statusCode).json(errorResponse(err));
-}
+	console.log('Caught Error \n', err);
+	res.status(err.statusCode).json(errorResponse(err));
+};
 
 module.exports = {
-    customError,
-    pageNotFound
-}
+	customError,
+	pageNotFound
+};

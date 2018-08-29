@@ -14,57 +14,45 @@ describe('Test Requests to Database',function() {
 
     describe('Database successful queries', async function(){
         scruffy = {id:1, name:'Scruffy', birthDate: '1999-01-01', hobby:'woof'};
-        before(()=>{
-            
+
+        await it('should add an object to database', function (){
+            dbResult = dbQuery.insertEntry('pets', scruffy);
+            expect(dbResult).eventually.to.deep.equal([1]);
         });
 
-        await it('should add an object to database',async function (){
-            dbResult = await dbQuery.insertEntry('pets', scruffy);
-            expect(dbResult[0]).to.equal(1);
+        await it('should retrieve an object from database', function (){
+            dbResult = dbQuery.selectEntry('pets', 1);
+            expect(dbResult).eventually.to.deep.equal([scruffy]);
         });
 
-        // it('should edit an object of database',async function (){
-        //     scruffy2 = {id:1, name:'Scruffy', bday: '1999-05-01', hobby:'chasing tails'};
-        //     dbResult = await dbQuery.updateEntry('pets', scruffy);
-        //     expect(dbResult[0]).to.equal(1);
-        // });
-
-        await it('should retrieve an object from database',async function (){
-            dbResult = await dbQuery.selectEntry('pets', 1);
-            expect(dbResult[0]).to.deep.equal(scruffy);
-        });
-
-        await it('should retrieve all objects in a table',async function (){
+        await it('should retrieve all objects in a table', function (){
             config = {limit:5, offset:0}
-            dbResult = await dbQuery.selectMultiEntries('pets', config);
-            expect(dbResult).to.deep.equal([scruffy]);
+            dbResult = dbQuery.selectMultiEntries('pets', config);
+            expect(dbResult).to.eventually.deep.equal([scruffy]);
         });
 
-        await it('should edit an object of database',async function (){
+        await it('should edit an object of database', function (){
             scruffy2 = {id:1, name:'Scruffy', birthDate: '1999-05-01', hobby:'chasing tails'};
-            dbResult = await dbQuery.updateEntry('pets', scruffy);
-            expect(dbResult).to.equal(1);
+            dbResult = dbQuery.updateEntry('pets', scruffy);
+            expect(dbResult).to.eventually.equal(1);
         });
 
-        await it('should count number of objects of database',async function (){
-            dbResult = await dbQuery.countEntries('pets');
-            expect(dbResult).to.equal(1);
+        await it('should count number of objects of database', function (){
+            dbResult = dbQuery.countEntries('pets');
+            expect(dbResult).to.eventually.deep.equal( [{ 'count(`id`)':1 }] );
         });
 
-        after(()=>{
-
-        });
-        await it('should delete object in database',async function (){
-            dbResult = await dbQuery.deleteEntry('pets', 1);
-            expect(dbResult).to.equal(1);
+        await it('should delete object in database', function (){
+            dbResult = dbQuery.deleteEntry('pets', 1);
+            expect(dbResult).to.eventually.equal(1);
         });
     });
 
 
 
-    // after(async ()=>{
-    //     console.log('dropping');
-    //     await knex.schema.dropTableIfExists('pets');
-    // })
+    after(()=>{
+        console.log('dropping');
+        knex.schema.dropTableIfExists('pets');
+    })
 
 });
