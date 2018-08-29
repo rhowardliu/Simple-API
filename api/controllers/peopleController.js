@@ -4,6 +4,9 @@ const model = require('../models/db_model')
 const modelValidate = require('../models/model_validate').modelValidate;
 const idBuilder = require('../models/id_builder');
 
+const DEFAULT_LIMIT = 10;
+const DEFAULT_OFFSET = 0;
+
 const addPerson = async (req, res ,next) =>{
   try{
   
@@ -44,7 +47,7 @@ const getPersonById = async (req, res, next) => {
   try{
     const id = req.params.personId;
     const dbObject = await reqHandler.getFromDb('people', id);
-    await resBuilder.singleEntityResponse('people', dbObject);
+    resBuilder.singleEntityResponse('people', dbObject);
     console.log('object' , dbObject);
     res.status(200).json(dbObject);
   }
@@ -74,11 +77,12 @@ const deletePersonById = async (req, res, next) =>{
 
 const getPeople = async (req, res, next) => {
   try{
-    let limit = parseInt(req.query.limit);
-    let offset = parseInt(req.query.offset);
-    const dbObject = await reqHandler.getMultiFromDb('people', {limit, offset});
-    await resBuilder.multiEntityResponse('people', dbObject);
-    res.status(200).json(dbObject);
+    let limit = parseInt(req.query.limit) || DEFAULT_LIMIT;
+    let offset = parseInt(req.query.offset) || DEFAULT_OFFSET;
+    let total = reqHandler.getCountFromDb('people');
+    const dbObject = reqHandler.getMultiFromDb('people', {limit, offset});
+    resObj = resBuilder.multiEntityResponse('people', await dbObject, await {limit, offset, total: await total});
+    res.status(200).json(resObj);
   }
   catch(err){
     console.log("getPeople threw it")

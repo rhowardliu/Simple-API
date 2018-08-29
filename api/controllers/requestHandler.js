@@ -42,10 +42,16 @@ getMultiFromDb = async (table, params) =>{
     return dbObj;
 }
 
+getCountFromDb = async (table)=>{
+    dbObj = await queryDb(table, 'countEntries');
+    return dbObj[0]['count(`id`)'];
+}
+
 module.exports = {
     addToDb,
     getFromDb,
     deleteFromDb,
     updateDb,
-    getMultiFromDb
+    getMultiFromDb,
+    getCountFromDb
 }
