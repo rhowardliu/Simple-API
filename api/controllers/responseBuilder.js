@@ -1,18 +1,18 @@
 const config = require('../config');
 
 
-singleEntityResponse = (endpoint, object) =>{
-	link = constructLinkToEntity(endpoint, object.id);
-	halLink = halLinkObj(link);
+const singleEntityResponse = (endpoint, object) =>{
+	let link = constructLinkToEntity(endpoint, object.id);
+	let halLink = halLinkObj(link);
 	object._links = {self: halLink};
 	return;
 };
 
 
-multiEntityResponse = (endpoint, objects, params) => {
-	resObj = {};
+const multiEntityResponse = (endpoint, objects, params) => {
+	let resObj = {};
 	addSelfLinksToCollection(endpoint, objects);
-	offsetValues = calculateOffset(params);
+	let offsetValues = calculateOffset(params);
 
 	resObj.total = params.total;
 	resObj.count = objects.length;
@@ -23,31 +23,31 @@ multiEntityResponse = (endpoint, objects, params) => {
 };
 
 
-collectionLinks = (endpoint, offsetVals) => {
-	halSelfLink = {self: halLinkObj(constructLinkToEntity(endpoint))};
+const collectionLinks = (endpoint, offsetVals) => {
+	let halSelfLink = {self: halLinkObj(constructLinkToEntity(endpoint))};
     
-	firstLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.first);
-	halFirstLink = {first: halLinkObj(firstLink)};
+	let firstLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.first);
+	let halFirstLink = {first: halLinkObj(firstLink)};
 
-	lastLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.last);
-	halLastLink = {last: halLinkObj(lastLink)};
+	let lastLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.last);
+	let halLastLink = {last: halLinkObj(lastLink)};
 
-	nextLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.next);   
-	halNextLink = {next: halLinkObj(nextLink)};
+	let nextLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.next);   
+	let halNextLink = {next: halLinkObj(nextLink)};
 
-	prevLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.prev);
-	halPrevLink = {prev: halLinkObj(prevLink)};
+	let prevLink = constructLinkForCollection(endpoint, offsetVals.limit, offsetVals.prev);
+	let halPrevLink = {prev: halLinkObj(prevLink)};
 
 	return Object.assign({}, halSelfLink, halFirstLink, halLastLink, halNextLink, halPrevLink);
 
 };
 
-calculateOffset = (params) =>{
+const calculateOffset = (params) =>{
 	let limit = params.limit;
 	let offset = params.offset;
 	let total = params.total;
 
-	offsetValues = {};
+	let offsetValues = {};
 	offsetValues.limit = limit;
 	offsetValues.first = 0;
 	offsetValues.last = Math.max(total - limit, 0);
@@ -58,34 +58,34 @@ calculateOffset = (params) =>{
 
 };
 
-embeddedCollection = (name, entities)=>{
-	embObj = {};
+const embeddedCollection = (name, entities)=>{
+	let embObj = {};
 	embObj[name] = entities;
 	return embObj;
 };
 
 
-addSelfLinksToCollection = (endpoint, objects) =>{
+const addSelfLinksToCollection = (endpoint, objects) =>{
 	for (let obj of objects){
 		singleEntityResponse(endpoint, obj);
 	}
 };
 
-constructLinkForCollection = (endpoint, limit, offset) =>{
-	link = config.baseUrl;
+const constructLinkForCollection = (endpoint, limit, offset) =>{
+	let link = config.baseUrl;
 	link += config.endpoints[endpoint];
 	link += `?limit=${limit}&offset=${offset}`;
 	return link;
 };
 
-constructLinkToEntity = (endpoint, id) =>{
-	selfLink = config.baseUrl;
+const constructLinkToEntity = (endpoint, id) =>{
+	let selfLink = config.baseUrl;
 	selfLink += config.endpoints[endpoint];
 	if (id) selfLink += `/${id}`;
 	return selfLink;
 };
 
-halLinkObj = (link) => {
+const halLinkObj = (link) => {
 	return {href: link,};
 };
 

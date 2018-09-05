@@ -1,7 +1,7 @@
-uniqueId = () =>{
+const uniqueId = () =>{
 	return (new Date()).getTime()%99999;
 };
-addIdToObj = (obj) =>{
+const addIdToObj = (obj) =>{
 	obj.id = uniqueId();
 	return Promise.resolve();
 };

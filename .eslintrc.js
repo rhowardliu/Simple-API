@@ -1,11 +1,12 @@
 module.exports = {
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true,
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 2015,
+        "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "rules": {
@@ -24,6 +25,13 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-unused-vars": [
+            "error", 
+            { "argsIgnorePattern": "next\\b" }
+        ],
+        "no-console":[
+            "warn"
+        ],
     }
 };

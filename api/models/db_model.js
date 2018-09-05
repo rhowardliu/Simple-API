@@ -1,4 +1,4 @@
-person = {
+const person = {
 	attributes: ['name', 'birthDate', 'hobby']
 };
 

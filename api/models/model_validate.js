@@ -1,4 +1,4 @@
-modelValidate = (obj, model) => {
+const modelValidate = (obj, model) => {
 	return new Promise ((resolve, reject) =>{
 		let objRelevant = {};
 		for (let key of model.attributes){

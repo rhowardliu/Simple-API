@@ -1,24 +1,22 @@
 
-errorResponse = (err) => {
+const errorResponse = (err) => {
 	return {
 		'status code': err.statusCode,
 		message: err.message,
 	};
 };
 
-pageNotFound = (req, res, next) =>{
+const pageNotFound = (req, res, next) =>{
 	next(new Error);
 };
 
 
-customError = (err, req, res, next) =>{
+const customError = (err, req, res, next) =>{
 	if (!err.statusCode){
-		console.log(err);
 		err = new Error('Page Not Found');
 		err.statusCode = 404;
 	} 
-
-	console.log('Caught Error \n', err);
+	console.log(`Error ${err.statusCode}: ${err.message}`);
 	res.status(err.statusCode).json(errorResponse(err));
 };
 

@@ -1,6 +1,6 @@
 
 
-dev = {
+const dev = {
 	client : 'mysql',
 	connection:{
 		host: 'localhost',
@@ -10,7 +10,7 @@ dev = {
 	}
 };
 
-test = {
+const test = {
 	client : 'mysql',
 	connection:{
 		host: 'localhost',
@@ -20,9 +20,8 @@ test = {
 	}
 };
 
-module.exports =
-    {
-    	dev,
-    	test
-    };
+module.exports ={
+	dev,
+	test
+};
 
